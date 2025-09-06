@@ -37,9 +37,7 @@
 #include "constants/battle_move_effects.h"
 #include "constants/union_room.h"
 
-#define SPECIES_TO_HOENN(name)      [SPECIES_##name - 1] = HOENN_DEX_##name
 #define SPECIES_TO_NATIONAL(name)   [SPECIES_##name - 1] = NATIONAL_DEX_##name
-#define HOENN_TO_NATIONAL(name)     [HOENN_DEX_##name - 1] = NATIONAL_DEX_##name
 
 struct MonSpritesGfxManager
 {
@@ -99,7 +97,8 @@ static const struct CombinedMove sCombinedMoves[2] =
 // NOTE: The order of the elements in the 3 arrays below is irrelevant.
 // To reorder the pokedex, see the values in include/constants/pokedex.h.
 
- // Assigns all species to the Hoenn Dex Index (Summary No. for Hoenn Dex)
+// Hoenn Pokedex functionality removed - regional dependencies eliminated
+/*
 static const u16 sSpeciesToHoennPokedexNum[NUM_SPECIES - 1] =
 {
     SPECIES_TO_HOENN(BULBASAUR),
@@ -514,6 +513,7 @@ static const u16 sSpeciesToHoennPokedexNum[NUM_SPECIES - 1] =
     SPECIES_TO_HOENN(DEOXYS),
     SPECIES_TO_HOENN(CHIMECHO),
 };
+*/
 
  // Assigns all species to the National Dex Index (Summary No. for National Dex)
 static const u16 sSpeciesToNationalPokedexNum[NUM_SPECIES - 1] =
@@ -931,7 +931,8 @@ static const u16 sSpeciesToNationalPokedexNum[NUM_SPECIES - 1] =
     SPECIES_TO_NATIONAL(CHIMECHO),
 };
 
-// Assigns all Hoenn Dex Indexes to a National Dex Index
+// Hoenn to National order mapping removed - regional dependencies eliminated
+/*
 static const u16 sHoennToNationalOrder[NUM_SPECIES - 1] =
 {
     HOENN_TO_NATIONAL(TREECKO),
@@ -1346,6 +1347,7 @@ static const u16 sHoennToNationalOrder[NUM_SPECIES - 1] =
     HOENN_TO_NATIONAL(OLD_UNOWN_Y),
     HOENN_TO_NATIONAL(OLD_UNOWN_Z),
 };
+*/
 
 static const struct SpindaSpot sSpindaSpotGraphics[] =
 {
@@ -5155,20 +5157,8 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
 
 static u16 HoennPokedexNumToSpecies(u16 hoennNum)
 {
-    u16 species;
-
-    if (!hoennNum)
-        return 0;
-
-    species = 0;
-
-    while (species < NUM_SPECIES - 1 && sSpeciesToHoennPokedexNum[species] != hoennNum)
-        species++;
-
-    if (species == NUM_SPECIES - 1)
-        return 0;
-
-    return species + 1;
+    // Regional Pokédex functionality removed
+    return 0;
 }
 
 u16 NationalPokedexNumToSpecies(u16 nationalNum)
@@ -5217,18 +5207,14 @@ u16 SpeciesToNationalPokedexNum(u16 species)
 
 static u16 SpeciesToHoennPokedexNum(u16 species)
 {
-    if (!species)
-        return 0;
-
-    return sSpeciesToHoennPokedexNum[species - 1];
+    // Regional Pokédex functionality removed
+    return 0;
 }
 
 u16 HoennToNationalOrder(u16 hoennNum)
 {
-    if (!hoennNum)
-        return 0;
-
-    return sHoennToNationalOrder[hoennNum - 1];
+    // Regional Pokédex functionality removed
+    return 0;
 }
 
 u16 SpeciesToCryId(u16 species)
