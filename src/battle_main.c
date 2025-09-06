@@ -955,7 +955,11 @@ static void CB2_HandleStartBattle(void)
             gBattleCommunication[MULTIUSE_STATE] = 1;
         }
         if (gWirelessCommType)
+        {
+#ifndef RFU_DISABLED
             LoadWirelessStatusIndicatorSpriteGfx();
+#endif
+        }
         break;
     case 1:
         if (gBattleTypeFlags & BATTLE_TYPE_LINK)
@@ -973,7 +977,11 @@ static void CB2_HandleStartBattle(void)
                     gBattleCommunication[MULTIUSE_STATE] = 2;
                 }
                 if (gWirelessCommType != 0)
+                {
+#ifndef RFU_DISABLED
                     CreateWirelessStatusIndicatorSprite(0, 0);
+#endif
+                }
             }
         }
         else
@@ -1164,7 +1172,11 @@ static void CB2_PreInitMultiBattle(void)
         {
             gBattleCommunication[MULTIUSE_STATE]++;
             if (gWirelessCommType)
+            {
+#ifndef RFU_DISABLED
                 SetLinkStandbyCallback();
+#endif
+            }
             else
                 SetCloseLinkCallback();
         }
@@ -1172,12 +1184,19 @@ static void CB2_PreInitMultiBattle(void)
     case 3:
         if (gWirelessCommType)
         {
+#ifndef RFU_DISABLED
             if (IsLinkRfuTaskFinished())
             {
                 gBattleTypeFlags = *savedBattleTypeFlags;
                 gMain.savedCallback = *savedCallback;
                 SetMainCallback2(CB2_InitBattleInternal);
             }
+#else
+            // When RFU is disabled, skip the RFU task check and proceed immediately
+            gBattleTypeFlags = *savedBattleTypeFlags;
+            gMain.savedCallback = *savedCallback;
+            SetMainCallback2(CB2_InitBattleInternal);
+#endif
         }
         else if (!gReceivedRemoteLinkPlayers)
         {
@@ -1213,7 +1232,11 @@ static void CB2_HandleStartMultiBattle(void)
             gBattleCommunication[MULTIUSE_STATE] = 1;
         }
         if (gWirelessCommType)
+        {
+#ifndef RFU_DISABLED
             LoadWirelessStatusIndicatorSpriteGfx();
+#endif
+        }
         break;
     case 1:
         if (gReceivedRemoteLinkPlayers)
@@ -1229,7 +1252,11 @@ static void CB2_HandleStartMultiBattle(void)
                 gBattleCommunication[MULTIUSE_STATE]++;
             }
             if (gWirelessCommType)
+            {
+#ifndef RFU_DISABLED
                 CreateWirelessStatusIndicatorSprite(0, 0);
+#endif
+            }
         }
         break;
     case 2:

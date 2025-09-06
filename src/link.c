@@ -2248,4 +2248,14 @@ void RfuVSync(void)
     // Stub implementation
 }
 
+void LoadWirelessStatusIndicatorSpriteGfx(void)
+{
+    // Stub implementation
+}
+
+void CreateWirelessStatusIndicatorSprite(u8 x, u8 y)
+{
+    // Stub implementation
+}
+
 #endif // RFU_DISABLED
