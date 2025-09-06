@@ -22,16 +22,8 @@ extern const u8 PokedexRating_Text_Complete[];
 
 u16 GetPokedexCount(void)
 {
-    if (gSpecialVar_0x8004 == 0)
-    {
-        gSpecialVar_0x8005 = GetKantoPokedexCount(0);
-        gSpecialVar_0x8006 = GetKantoPokedexCount(1);
-    }
-    else
-    {
-        gSpecialVar_0x8005 = GetNationalPokedexCount(0);
-        gSpecialVar_0x8006 = GetNationalPokedexCount(1);
-    }
+    gSpecialVar_0x8005 = GetNationalPokedexCount(0);
+    gSpecialVar_0x8006 = GetNationalPokedexCount(1);
     return IsNationalPokedexEnabled();
 }
 
@@ -84,17 +76,14 @@ static const u8 *GetProfOaksRatingMessageByCount(u16 count)
     if (count < 150)
         return PokedexRating_Text_LessThan150;
 
-    if (count == KANTO_DEX_COUNT - 1)
+    if (count == NATIONAL_DEX_COUNT - 2)
     {
-        // Mew doesn't count for completing the pokedex
-        if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEW), 1))
-            return PokedexRating_Text_LessThan150;
-
+        // Jirachi and Deoxys don't count for completing the pokedex
         gSpecialVar_Result = TRUE;
         return PokedexRating_Text_Complete;
     }
 
-    if (count == KANTO_DEX_COUNT)
+    if (count >= NATIONAL_DEX_COUNT - 2)
     {
         gSpecialVar_Result = TRUE;
         return PokedexRating_Text_Complete;

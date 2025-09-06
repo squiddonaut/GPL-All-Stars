@@ -343,7 +343,7 @@ gSpecials::
 	def_special Script_FadeOutMapMusic
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
-	def_special HasAllKantoMons
+	def_special HasAllMons
 	def_special IsMonOTNameNotPlayers
 	def_special NullFieldSpecial
 	def_special Dummy_TryEnableBravoTrainerBattleTower
@@ -440,7 +440,6 @@ gSpecials::
 	def_special IsPlayerLeftOfVermilionSailor
 	def_special IsBadEggInParty
 	def_special ReadTrainerTowerAndValidate
-	def_special HasAllMons
 	def_special IsPlayerNotInTrainerTowerLobby
 	def_special BrailleCursorToggle
 	def_special Script_ResetUnionRoomTrade
