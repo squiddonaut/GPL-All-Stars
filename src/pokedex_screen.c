@@ -440,7 +440,7 @@ static const struct WindowTemplate sWindowTemplate_OrderedListMenu = {
 };
 
 static const struct ListMenuTemplate sListMenuTemplate_OrderedListMenu = {
-    .items = sListMenuItems_KantoDexModeSelect,
+    .items = sListMenuItems_DexModeSelect,
     .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
     .itemPrintFunc = ItemPrintFunc_OrderedListMenu,
     .totalItems = 0,

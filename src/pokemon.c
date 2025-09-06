@@ -5179,23 +5179,7 @@ u16 NationalPokedexNumToSpecies(u16 nationalNum)
     return species + 1;
 }
 
-static u16 NationalToHoennOrder(u16 nationalNum)
-{
-    u16 hoennNum;
 
-    if (!nationalNum)
-        return 0;
-
-    hoennNum = 0;
-
-    while (hoennNum < NUM_SPECIES - 1 && sHoennToNationalOrder[hoennNum] != nationalNum)
-        hoennNum++;
-
-    if (hoennNum == NUM_SPECIES - 1)
-        return 0;
-
-    return hoennNum + 1;
-}
 
 u16 SpeciesToNationalPokedexNum(u16 species)
 {
