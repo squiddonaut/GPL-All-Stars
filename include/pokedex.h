@@ -3,12 +3,6 @@
 
 enum
 {
-    DEX_MODE_KANTO,
-    DEX_MODE_NATIONAL
-};
-
-enum
-{
     FLAG_GET_SEEN,
     FLAG_GET_CAUGHT,
     FLAG_SET_SEEN,

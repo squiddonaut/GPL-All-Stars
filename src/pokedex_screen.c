@@ -137,9 +137,7 @@ static void Task_DexScreen_RegisterMonToPokedex(u8 taskId);
 #include "data/pokemon_graphics/footprint_table.h"
 
 const u32 sCategoryMonInfoBgTiles[] = INCBIN_U32("graphics/pokedex/mini_page.4bpp.lz");
-const u32 sKantoDexTiles[] = INCBIN_U32("graphics/pokedex/kanto_dex_bgtiles.4bpp.lz");
 const u32 sNatDexTiles[] = INCBIN_U32("graphics/pokedex/national_dex_bgtiles.4bpp.lz");
-const u16 sKantoDexPalette[0x100] = INCBIN_U16("graphics/pokedex/kanto_dex_bgpals.gbapal");
 
 const u16 sDexScreen_CategoryCursorPals[] = {
     RGB(24, 22, 17), RGB(26, 24, 20),
@@ -335,26 +333,6 @@ static const struct ListMenuItem sListMenuItems_KantoDexModeSelect[] = {
     {gText_ClosePokedex,                 LIST_CANCEL},
 };
 
-static const struct ListMenuTemplate sListMenuTemplate_KantoDexModeSelect = {
-    .items = sListMenuItems_KantoDexModeSelect,
-    .moveCursorFunc = MoveCursorFunc_DexModeSelect,
-    .itemPrintFunc = ItemPrintFunc_DexModeSelect,
-    .totalItems = NELEMS(sListMenuItems_KantoDexModeSelect),
-    .maxShowed = 9,
-    .windowId = 0,
-    .header_X = 0,
-    .item_X = 12,
-    .cursor_X = 4,
-    .upText_Y = 2,
-    .cursorPal = 1,
-    .fillValue = 0,
-    .cursorShadowPal = 3,
-    .lettersSpacing = 1,
-    .itemVerticalPadding = 0,
-    .scrollMultiple = 0,
-    .fontId = FONT_NORMAL,
-    .cursorKind = 0,
-};
 
 static const struct ListMenuItem sListMenuItems_NatDexModeSelect[] = {
     {gText_PokemonList,                  LIST_HEADER},
@@ -400,19 +378,7 @@ static const struct ListMenuTemplate sListMenuTemplate_NatDexModeSelect = {
     .cursorKind = 0,
 };
 
-static const struct ScrollArrowsTemplate sScrollArrowsTemplate_KantoDex = {
-    .firstArrowType = 2,
-    .firstX = 200,
-    .firstY = 19,
-    .secondArrowType = 3,
-    .secondX = 200,
-    .secondY = 141,
-    .fullyUpThreshold = 0,
-    .fullyDownThreshold = 10,
-    .tileTag = 2000,
-    .palTag = 0xFFFF,
-    .palNum = 1
-};
+
 
 static const struct ScrollArrowsTemplate sScrollArrowsTemplate_NatDex = {
     .firstArrowType = 2,
@@ -873,10 +839,8 @@ void CB2_PokedexScreen(void)
 
 void DexScreen_LoadResources(void)
 {
-    bool8 natDex;
     u8 taskId;
 
-    natDex = IsNationalPokedexEnabled();
     m4aSoundVSyncOff();
     SetVBlankCallback(NULL);
     ResetPaletteFade();
@@ -889,10 +853,7 @@ void DexScreen_LoadResources(void)
     SetBgTilemapBuffer(2, (u16 *)Alloc(BG_SCREEN_SIZE));
     SetBgTilemapBuffer(1, (u16 *)Alloc(BG_SCREEN_SIZE));
     SetBgTilemapBuffer(0, (u16 *)Alloc(BG_SCREEN_SIZE));
-    if (natDex)
-        DecompressAndLoadBgGfxUsingHeap(3, (void *)sNatDexTiles, BG_SCREEN_SIZE, 0, 0);
-    else
-        DecompressAndLoadBgGfxUsingHeap(3, (void *)sKantoDexTiles, BG_SCREEN_SIZE, 0, 0);
+    DecompressAndLoadBgGfxUsingHeap(3, (void *)sNatDexTiles, BG_SCREEN_SIZE, 0, 0);
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
     m4aSoundVSyncOn();
@@ -915,10 +876,7 @@ void DexScreen_LoadResources(void)
     ChangeBgX(3, 0, 0);
     ChangeBgY(3, 0, 0);
     gPaletteFade.bufferTransferDisabled = TRUE;
-    if (natDex)
-        LoadPalette(sNationalDexPalette, BG_PLTT_ID(0), sizeof(sNationalDexPalette));
-    else
-        LoadPalette(sKantoDexPalette, BG_PLTT_ID(0), sizeof(sKantoDexPalette));
+    LoadPalette(sNationalDexPalette, BG_PLTT_ID(0), sizeof(sNationalDexPalette));
     FillBgTilemapBufferRect(3, 0x001, 0,  0, 32, 32, 0);
     FillBgTilemapBufferRect(2, 0x000, 0,  0, 32, 32, 17);
     FillBgTilemapBufferRect(1, 0x000, 0,  0, 32, 32, 17);
@@ -1023,10 +981,7 @@ static void Task_PokedexScreen(u8 taskId)
         break;
     case 5:
         ListMenuGetScrollAndRow(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPosBak, NULL);
-        if (IsNationalPokedexEnabled())
-            sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_NatDex, &sPokedexScreenData->modeSelectCursorPosBak);
-        else
-            sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_NatDex, &sPokedexScreenData->modeSelectCursorPosBak);
+        sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_NatDex, &sPokedexScreenData->modeSelectCursorPosBak);
         sPokedexScreenData->state = 6;
         break;
     case 6:
@@ -2453,11 +2408,7 @@ bool8 DexScreen_TurnCategoryPage_BgEffect(u8 page)
  */
 static bool8 DexScreen_FlipCategoryPageInDirection(u8 direction)
 {
-    u16 color;
-    if (IsNationalPokedexEnabled())
-        color = sNationalDexPalette[7];
-    else
-        color = sKantoDexPalette[7];
+    u16 color = sNationalDexPalette[7];
     switch (sPokedexScreenData->data[0])
     {
     case 0:
@@ -3116,8 +3067,6 @@ u8 DexScreen_DestroyAreaScreenResources(void)
 
 static int DexScreen_CanShowMonInDex(u16 species)
 {
-    if (IsNationalPokedexEnabled() == TRUE)
-        return TRUE;
     return TRUE;
 }
 
