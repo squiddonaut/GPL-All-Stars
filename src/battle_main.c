@@ -1,3 +1,6 @@
+// Add at top
+#define RFU_DISABLED
+
 #include "global.h"
 #include "gflib.h"
 #include "battle.h"
@@ -18,7 +21,7 @@
 #include "help_system.h"
 #include "item.h"
 #include "link.h"
-#include "link_rfu.h"
+//#include "link_rfu.h"
 #include "load_save.h"
 #include "m4a.h"
 #include "party_menu.h"
