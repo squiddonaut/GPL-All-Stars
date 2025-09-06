@@ -7,8 +7,10 @@
 #include "save.h"
 #include "battle.h"
 #include "quest_log.h"
+#ifndef RFU_DISABLED
 #include "link_rfu.h"
 #include "librfu.h"
+#endif
 #include "random.h"
 #include "task.h"
 #include "event_data.h"
@@ -2102,3 +2104,148 @@ void ResetRecvBuffer(void)
         }
     }
 }
+
+#ifdef RFU_DISABLED
+// Stub functions for when RFU functionality is disabled
+
+#define RFU_ID 0x00008001  // Keep same value for compatibility
+
+void InitRFUAPI(void)
+{
+    // Stub implementation
+}
+
+void RfuSetIgnoreError(bool8 enable)
+{
+    // Stub implementation
+}
+
+u32 rfu_LMAN_REQBN_softReset_and_checkID(void)
+{
+    return 0; // Return non-RFU_ID value
+}
+
+void rfu_REQ_stopMode(void)
+{
+    // Stub implementation
+}
+
+void rfu_waitREQComplete(void)
+{
+    // Stub implementation
+}
+
+void LinkRfu_Shutdown(void)
+{
+    // Stub implementation
+}
+
+void StartSendingKeysToRfu(void)
+{
+    // Stub implementation
+}
+
+bool32 IsSendingKeysToRfu(void)
+{
+    return FALSE;
+}
+
+void ClearLinkRfuCallback(void)
+{
+    // Stub implementation
+}
+
+u32 Rfu_GetLinkPlayerCount(void)
+{
+    return EXTRACT_PLAYER_COUNT(gLinkStatus);
+}
+
+u32 Rfu_GetMultiplayerId(void)
+{
+    return SIO_MULTI_CNT->id;
+}
+
+bool32 Rfu_InitBlockSend(const u8 *src, u32 size)
+{
+    return InitBlockSend(src, size);
+}
+
+bool32 Rfu_SendBlockRequest(u8 blockRequestType)
+{
+    if (gLinkCallback == NULL)
+        return TRUE;
+    return FALSE;
+}
+
+bool32 IsLinkRfuTaskFinished(void)
+{
+    return gLinkCallback == NULL;
+}
+
+u32 Rfu_GetBlockReceivedStatus(void)
+{
+    return (gBlockReceivedStatus[3] << 3) | (gBlockReceivedStatus[2] << 2) | (gBlockReceivedStatus[1] << 1) | (gBlockReceivedStatus[0] << 0);
+}
+
+void Rfu_SetBlockReceivedFlag(u8 who)
+{
+    gBlockReceivedStatus[who] = TRUE;
+}
+
+void Rfu_ResetBlockReceivedFlag(u8 who)
+{
+    if (gBlockReceivedStatus[who])
+        gBlockReceivedStatus[who] = FALSE;
+}
+
+bool32 Rfu_IsMaster(void)
+{
+    return EXTRACT_MASTER(gLinkStatus);
+}
+
+void Rfu_SetCloseLinkCallback(void)
+{
+    // Stub implementation
+}
+
+void Rfu_SetLinkStandbyCallback(void)
+{
+    // Stub implementation
+}
+
+void ResetLinkRfuGFLayer(void)
+{
+    // Stub implementation
+}
+
+bool32 RfuMain1(void)
+{
+    return FALSE; // Always returns FALSE
+}
+
+bool32 RfuMain2(void)
+{
+    return FALSE;
+}
+
+bool32 IsRfuRecvQueueEmpty(void)
+{
+    return TRUE;
+}
+
+u32 GetRfuRecvQueueLength(void)
+{
+    return gLink.recvQueue.count;
+}
+
+void DestroyTask_RfuIdle(void)
+{
+    // Stub implementation
+}
+
+void RfuVSync(void)
+{
+    // Stub implementation
+}
+
+#endif // RFU_DISABLED
