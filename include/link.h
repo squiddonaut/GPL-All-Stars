@@ -4,7 +4,11 @@
 #include "global.h"
 
 #define MAX_LINK_PLAYERS 4
+#ifndef RFU_DISABLED
 #define MAX_RFU_PLAYERS 5
+#else
+#define MAX_RFU_PLAYERS MAX_LINK_PLAYERS
+#endif
 #define CMD_LENGTH 8
 #define QUEUE_CAPACITY 50
 #define OVERWORLD_RECV_QUEUE_MAX 3
