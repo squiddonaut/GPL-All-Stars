@@ -58,7 +58,7 @@
 #endif // ENGLISH
 
 // Define this to disable RFU (Radio Frequency Unit) functionality
-#define RFU_DISABLED
+// #define RFU_DISABLED
 
 // Crashes may occur due to section reordering in the modern build,
 // so we force BUGFIX here.

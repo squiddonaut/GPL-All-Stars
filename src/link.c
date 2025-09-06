@@ -2238,4 +2238,14 @@ u32 GetRfuRecvQueueLength(void)
     return gLink.recvQueue.count;
 }
 
+void DestroyTask_RfuIdle(void)
+{
+    // Stub implementation
+}
+
+void RfuVSync(void)
+{
+    // Stub implementation
+}
+
 #endif // RFU_DISABLED

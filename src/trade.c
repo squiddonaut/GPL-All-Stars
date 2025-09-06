@@ -6,7 +6,9 @@
 #include "pokemon_icon.h"
 #include "graphics.h"
 #include "link.h"
+#ifndef RFU_DISABLED
 #include "link_rfu.h"
+#endif
 #include "cable_club.h"
 #include "data.h"
 #include "strings.h"
@@ -905,7 +907,9 @@ static void CB2_CreateTradeMenu(void)
     case 4:
         if (gReceivedRemoteLinkPlayers == TRUE && IsLinkPlayerDataExchangeComplete() == TRUE)
         {
+#ifndef RFU_DISABLED
             DestroyTask_RfuIdle();
+#endif
             CalculatePlayerPartyCount();
             gMain.state++;
             sTradeMenu->timer = 0;

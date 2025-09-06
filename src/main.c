@@ -1,7 +1,10 @@
 #include "global.h"
 #include "gflib.h"
 #include "link.h"
+#ifndef RFU_DISABLED
 #include "link_rfu.h"
+#include "librfu.h"
+#endif
 #include "load_save.h"
 #include "m4a.h"
 #include "random.h"
@@ -163,8 +166,10 @@ void AgbMain()
          && (gMain.heldKeysRaw & A_BUTTON)
          && (gMain.heldKeysRaw & B_START_SELECT) == B_START_SELECT)
         {
+#ifndef RFU_DISABLED
             rfu_REQ_stopMode();
             rfu_waitREQComplete();
+#endif
             DoSoftReset();
         }
 
@@ -358,7 +363,11 @@ extern void ProcessDma3Requests(void);
 static void VBlankIntr(void)
 {
     if (gWirelessCommType)
+#ifndef RFU_DISABLED
         RfuVSync();
+#else
+        ; // Do nothing when RFU is disabled
+#endif
     else if (!gLinkVSyncDisabled)
         LinkVSync();
 
